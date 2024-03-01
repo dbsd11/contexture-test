@@ -12,6 +12,7 @@ vars:
     description: 'plan design tool contexture'
     nasConfig: auto
   service_domain: ${env(service_domain)}
+  cert_id: ${env(cert_id)}
 
 services:
   server: # 业务名称/模块名称
@@ -71,6 +72,7 @@ services:
       customDomains:
         - domainName: ${vars.service_domain}
           protocol: HTTP,HTTPS
+          certId: ${vars.cert_id}
       triggers:
         - name: httpTrigger
           type: http
