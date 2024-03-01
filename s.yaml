@@ -73,6 +73,11 @@ services:
         - domainName: ${vars.service_domain}
           protocol: HTTP,HTTPS
           certId: ${vars.cert_id}
+          routeConfigs:
+            - path: /*
+              serviceName: ${vars.service}
+              functionName: contexture-api
+              qualifier: LATEST
       triggers:
         - name: httpTrigger
           type: http
