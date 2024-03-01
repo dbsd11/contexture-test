@@ -19,10 +19,10 @@ services:
     actions:          # 自定义执行逻辑，关于actions 的使用，可以参考：https://www.serverless-devs.com/serverless-devs/yaml#行为描述
       pre-deploy:
         - run: set +e && echo "start deploy ${vars.service} on $server.output.url.custom_domain[0].domain}"
-          path: .
+          path: "s.yaml"
       post-deploy:  # 在deploy之后运行
         - run: set +e && echo 'deploy success'
-          path: .
+          path: "s.yaml"
     props: # 组件的属性值
       region: ${vars.region}
       service: ${vars.service}
