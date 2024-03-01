@@ -75,7 +75,7 @@ services:
           certId: ${vars.cert_id}
           routeConfigs:
             - path: /*
-              serviceName: ${vars.service}
+              serviceName: test-contexture
               functionName: contexture-api
               qualifier: LATEST
       triggers:
