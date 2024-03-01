@@ -6,7 +6,7 @@ name: framework         #  项目名称
 access: "{{ access }}"
 
 vars:
-  region: "cn-beijing" 
+  region: "cn-hangzhou" 
   service:
     name: "test-contexture"
     description: 'plan design tool contexture'
