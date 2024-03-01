@@ -1,0 +1,85 @@
+edition: 1.0.0          #  命令行YAML规范版本，遵循语义化版本（Semantic Versioning）规范
+name: framework         #  项目名称
+# access 是当前应用所需要的密钥信息配置：
+# 密钥配置可以参考：https://www.serverless-devs.com/serverless-devs/command/config
+# 密钥使用顺序可以参考：https://www.serverless-devs.com/serverless-devs/tool#密钥使用顺序与规范
+access: "{{ access }}"
+
+vars:
+  region: "cn-beijing" 
+  service:
+    name: "test-contexture"
+    description: 'plan design tool contexture'
+    nasConfig: auto
+  service_domain: ${env(service_domain)}
+
+services:
+  server: # 业务名称/模块名称
+    component:  fc    # 组件名称，Serverless Devs 工具本身类似于一种游戏机，不具备具体的业务能力，组件类似于游戏卡，用户通过向游戏机中插入不同的游戏卡实现不同的功能，即通过使用不同的组件实现不同的具体业务能力
+    actions:          # 自定义执行逻辑，关于actions 的使用，可以参考：https://www.serverless-devs.com/serverless-devs/yaml#行为描述
+      pre-deploy:
+        - run: set +e && echo "start deploy ${vars.service} on $server.output.url.custom_domain[0].domain}"
+          path: .
+      post-deploy:  # 在deploy之后运行
+        - run: set +e && echo 'deploy success'
+          path: .
+    props: # 组件的属性值
+      region: ${vars.region}
+      service: ${vars.service}
+      function:
+        name: "contexture-api"
+        description: 'contexture api'
+        version: 'LATEST'
+        codeUri: '.'
+        runtime: custom-container
+        timeout: 7200
+        caPort: 3000
+        customContainerConfig: 
+          image: "registry.cn-beijing.aliyuncs.com/dbsnolimit/ddd-contexture:1.0"
+        cpu: 0.5
+        memorySize: 512 # 单位MB
+        diskSize: 512 # 单位MB
+        instanceConcurrency: 200
+        autoScaling:  
+          minInstances: 0  
+          maxInstances: 1  
+          targetConcurrency: 200  # instanceConcurrency * maxInstances
+          rules:  
+            - name: scale-out-cpu  
+              metricType: cpu  
+              metricThreshold: 80  
+              adjustmentType: ChangeInCapacity  
+              adjustmentValue: 1
+            - name: scale-in-cpu 
+              metricType: cpu  
+              metricThreshold: 50  
+              adjustmentType: ChangeInCapacity  
+              adjustmentValue: -1
+            - name: scale-out-memory 
+              metricType: memory  
+              metricThreshold: 80
+              adjustmentType: ChangeInCapacity  
+              adjustmentValue: 1
+            - name: scale-in-memory 
+              metricType: memory  
+              metricThreshold: 50  
+              adjustmentType: ChangeInCapacity  
+              adjustmentValue: -1
+        logConfig:
+          project: 'serverless-log'
+          logstore: 'contexture'
+      customDomains:
+        - domainName: ${vars.service_domain}
+          protocol: HTTP,HTTPS
+      triggers:
+        - name: httpTrigger
+          type: http
+          config:
+            authType: anonymous
+            methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - HEAD
+              - OPTIONS
