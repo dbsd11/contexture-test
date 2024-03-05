@@ -7,9 +7,6 @@ access: "{{ access }}"
 
 vars:
   region: "cn-hangzhou" 
-  service:
-    name: "test-contexture"
-    description: 'plan design tool contexture'
   service_domain: ${env(service_domain)}
   cert_id: ${env(cert_id)}
 
@@ -25,7 +22,16 @@ services:
           path: "s.yaml"
     props: # 组件的属性值
       region: ${vars.region}
-      service: ${vars.service}
+      service: 
+        name: "test-contexture"
+        description: 'plan design tool contexture'
+        ossMountConfig: 
+          ossMountPoints: 
+            - bucketName: contextures
+            - bucketPath: /juji-payment
+            - endpoint: oss-cn-beijing.aliyuncs.com
+            - mountDir: /data
+            - readOnly: "false"
       function:
         name: "contexture-api"
         description: 'contexture api'
@@ -36,13 +42,6 @@ services:
         caPort: 3000
         customContainerConfig: 
           image: "registry.cn-hangzhou.aliyuncs.com/dbsnolimit/ddd-contexture:1.0"
-        ossMountConfig: 
-          ossMountPoints: 
-            - bucketName: contextures
-            - bucketPath: /juji-payment
-            - endpoint: oss-cn-beijing.aliyuncs.com
-            - mountDir: /data
-            - readOnly: "false"
         cpu: 0.5
         memorySize: 512 # 单位MB
         diskSize: 512 # 单位MB
