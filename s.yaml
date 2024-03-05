@@ -29,7 +29,7 @@ services:
           mountPoints: 
             - bucketName: contextures
               bucketPath: /bison
-              endpoint: oss-cn-beijing.aliyuncs.com
+              endpoint: https://oss-cn-beijing.aliyuncs.com
               mountDir: /data
               readOnly: false
       function:
@@ -92,7 +92,7 @@ services:
           mountPoints: 
             - bucketName: contextures
             - bucketPath: /juji-payment
-            - endpoint: oss-cn-beijing.aliyuncs.com
+            - endpoint: https://oss-cn-beijing.aliyuncs.com
             - mountDir: /data
             - readOnly: "false"
       function:
