@@ -37,6 +37,10 @@ services:
         caPort: 3000
         customContainerConfig: 
           image: "registry.cn-hangzhou.aliyuncs.com/dbsnolimit/ddd-contexture:1.0"
+          command: 
+            - bash
+            - -c
+            - mkdir /data && ln -s /mnt/auto/db.json /data/db.json
         cpu: 0.5
         memorySize: 512 # 单位MB
         diskSize: 512 # 单位MB
