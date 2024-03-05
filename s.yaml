@@ -94,7 +94,7 @@ services:
             - bucketPath: /juji-payment
             - endpoint: https://oss-cn-beijing.aliyuncs.com
             - mountDir: /data
-            - readOnly: "false"
+            - readOnly: false
       function:
         name: "juji-contexture-api"
         description: 'juji contexture api'
