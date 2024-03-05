@@ -150,6 +150,10 @@ services:
               serviceName: bison-contexture
               functionName: bison-contexture-api
               qualifier: LATEST
+              rewriteConfig:
+                wildcardRules:
+                  - match: /bison/*
+                    replacement: /$1
       triggers:
         - name: httpTrigger
           type: http
