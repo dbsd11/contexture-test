@@ -31,7 +31,7 @@ services:
               bucketPath: /bison
               endpoint: oss-cn-beijing.aliyuncs.com
               mountDir: /data
-              readOnly: "false"
+              readOnly: false
       function:
         name: "bison-contexture-api"
         describiption: 'bison contexture api'
