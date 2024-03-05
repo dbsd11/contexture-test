@@ -25,6 +25,7 @@ services:
       service: 
         name: "juji-contexture"
         description: 'plan design tool contexture'
+        vpcConfig: auto
         nasConfig:
           userId: 0
           groupId: 0
