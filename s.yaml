@@ -28,10 +28,10 @@ services:
         ossMountConfig: 
           ossMountPoints: 
             - bucketName: contextures
-            - bucketPath: /bison
-            - endpoint: oss-cn-beijing.aliyuncs.com
-            - mountDir: /data
-            - readOnly: "false"
+              bucketPath: /bison
+              endpoint: oss-cn-beijing.aliyuncs.com
+              mountDir: /data
+              readOnly: "false"
       function:
         name: "bison-contexture-api"
         describiption: 'bison contexture api'
