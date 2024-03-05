@@ -11,7 +11,7 @@ vars:
   cert_id: ${env(cert_id)}
 
 services:
-  bison-contexture: # 业务名称/模块名称
+  juji-contexture: # 业务名称/模块名称
     component:  fc    # 组件名称，Serverless Devs 工具本身类似于一种游戏机，不具备具体的业务能力，组件类似于游戏卡，用户通过向游戏机中插入不同的游戏卡实现不同的功能，即通过使用不同的组件实现不同的具体业务能力
     actions:          # 自定义执行逻辑，关于actions 的使用，可以参考：https://www.serverless-devs.com/serverless-devs/yaml#行为描述
       pre-deploy:
@@ -23,18 +23,25 @@ services:
     props: # 组件的属性值
       region: ${vars.region}
       service: 
-        name: "bison-contexture"
+        name: "juji-contexture"
         description: 'plan design tool contexture'
+        nasConfig:
+          userId: 0
+          groupId: 0
+          mountPoints:
+            - serverAddr: 03808482b2-nwn30.cn-hangzhou.nas.aliyuncs.com
+              nasDir: /fc-juji-contexture
+              fcDir: /data
         ossMountConfig: 
           mountPoints: 
             - bucketName: contextures
-              bucketPath: /bison
+              bucketPath: /juji-payment
               endpoint: https://oss-cn-beijing.aliyuncs.com
-              mountDir: /data
+              mountDir: /oss/data
               readOnly: false
       function:
-        name: "bison-contexture-api"
-        describiption: 'bison contexture api'
+        name: "juji-contexture-api"
+        description: 'juji contexture api'
         version: 'LATEST'
         codeUri: '.'
         runtime: custom-container
@@ -83,89 +90,6 @@ services:
               serviceName: juji-contexture
               functionName: juji-contexture-api
               qualifier: LATEST
-            - path: /bison/*
-              serviceName: bison-contexture
-              functionName: bison-contexture-api
-              qualifier: LATEST
-              rewriteConfig:
-                wildcardRules:
-                  - match: /bison/*
-                    replacement: /$1
-      triggers:
-        - name: httpTrigger
-          type: http
-          config:
-            authType: anonymous
-            methods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - HEAD
-              - OPTIONS
-  juji-contexture: # 业务名称/模块名称
-    component:  fc    # 组件名称，Serverless Devs 工具本身类似于一种游戏机，不具备具体的业务能力，组件类似于游戏卡，用户通过向游戏机中插入不同的游戏卡实现不同的功能，即通过使用不同的组件实现不同的具体业务能力
-    actions:          # 自定义执行逻辑，关于actions 的使用，可以参考：https://www.serverless-devs.com/serverless-devs/yaml#行为描述
-      pre-deploy:
-        - run: set +e && echo "start deploy ${vars.service_domain} on $server.output.url.custom_domain[0].domain}"
-          path: "s.yaml"
-      post-deploy:  # 在deploy之后运行
-        - run: set +e && echo 'deploy success'
-          path: "s.yaml"
-    props: # 组件的属性值
-      region: ${vars.region}
-      service: 
-        name: "juji-contexture"
-        description: 'plan design tool contexture'
-        ossMountConfig: 
-          mountPoints: 
-            - bucketName: contextures
-              bucketPath: /juji-payment
-              endpoint: https://oss-cn-beijing.aliyuncs.com
-              mountDir: /data
-              readOnly: false
-      function:
-        name: "juji-contexture-api"
-        description: 'juji contexture api'
-        version: 'LATEST'
-        codeUri: '.'
-        runtime: custom-container
-        timeout: 7200
-        caPort: 3000
-        customContainerConfig: 
-          image: "registry.cn-hangzhou.aliyuncs.com/dbsnolimit/ddd-contexture:1.0"
-        cpu: 0.5
-        memorySize: 512 # 单位MB
-        diskSize: 512 # 单位MB
-        instanceConcurrency: 200
-        autoScaling:  
-          minInstances: 0  
-          maxInstances: 1  
-          targetConcurrency: 200  # instanceConcurrency * maxInstances
-          rules:  
-            - name: scale-out-cpu  
-              metricType: cpu  
-              metricThreshold: 80  
-              adjustmentType: ChangeInCapacity  
-              adjustmentValue: 1
-            - name: scale-in-cpu 
-              metricType: cpu  
-              metricThreshold: 50  
-              adjustmentType: ChangeInCapacity  
-              adjustmentValue: -1
-            - name: scale-out-memory 
-              metricType: memory  
-              metricThreshold: 80
-              adjustmentType: ChangeInCapacity  
-              adjustmentValue: 1
-            - name: scale-in-memory 
-              metricType: memory  
-              metricThreshold: 50  
-              adjustmentType: ChangeInCapacity  
-              adjustmentValue: -1
-        logConfig:
-          project: 'serverless-log'
-          logstore: 'contexture'
       triggers:
         - name: httpTrigger
           type: http
