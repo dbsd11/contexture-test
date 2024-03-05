@@ -26,7 +26,7 @@ services:
         name: "bison-contexture"
         description: 'plan design tool contexture'
         ossMountConfig: 
-          ossMountPoints: 
+          mountPoints: 
             - bucketName: contextures
               bucketPath: /bison
               endpoint: oss-cn-beijing.aliyuncs.com
@@ -89,7 +89,7 @@ services:
         name: "juji-contexture"
         description: 'plan design tool contexture'
         ossMountConfig: 
-          ossMountPoints: 
+          mountPoints: 
             - bucketName: contextures
             - bucketPath: /juji-payment
             - endpoint: oss-cn-beijing.aliyuncs.com
