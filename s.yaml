@@ -53,7 +53,7 @@ services:
           SqlBased__ConnectionString: ${vars.db_conn}
           CONTEXTURE_MAX_SUBDOMAINS_NESTING_LEVEL: 1
         customContainerConfig: 
-          image: "softwarepark/contexture:0.3.1"
+          image: "registry.cn-hangzhou.aliyuncs.com/dbsnolimit/ddd-contexture:0.3.1"
         cpu: 0.5
         memorySize: 512 # 单位MB
         diskSize: 512 # 单位MB
