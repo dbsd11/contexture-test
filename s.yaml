@@ -9,6 +9,7 @@ vars:
   region: "cn-hangzhou" 
   service_domain: ${env(service_domain)}
   cert_id: ${env(cert_id)}
+  db_conn: ${env(db_conn)}
 
 services:
   juji-contexture: # 业务名称/模块名称
@@ -49,7 +50,7 @@ services:
         timeout: 7200
         caPort: 3000
         environmentVariables:
-          SqlBased__ConnectionString: Server=118.31.74.236;User Id=sa;Password=development(!)Password
+          SqlBased__ConnectionString: ${vars.db_conn}
         customContainerConfig: 
           image: "registry.cn-hangzhou.aliyuncs.com/dbsnolimit/ddd-contexture:1.0"
         cpu: 0.5
