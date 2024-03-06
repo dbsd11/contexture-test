@@ -48,6 +48,8 @@ services:
         runtime: custom-container
         timeout: 7200
         caPort: 3000
+        environmentVariables:
+          SqlBased__ConnectionString: Server=118.31.74.236;User Id=sa;Password=development(!)Password
         customContainerConfig: 
           image: "registry.cn-hangzhou.aliyuncs.com/dbsnolimit/ddd-contexture:1.0"
         cpu: 0.5
