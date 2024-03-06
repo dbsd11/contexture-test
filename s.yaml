@@ -52,7 +52,7 @@ services:
         environmentVariables:
           SqlBased__ConnectionString: ${vars.db_conn}
         customContainerConfig: 
-          image: "registry.cn-hangzhou.aliyuncs.com/dbsnolimit/ddd-contexture:1.0"
+          image: "softwarepark/contexture:0.3.1"
         cpu: 0.5
         memorySize: 512 # 单位MB
         diskSize: 512 # 单位MB
