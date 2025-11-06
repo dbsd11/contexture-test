@@ -88,8 +88,9 @@ services:
           logstore: 'contexture'
       customDomains:
         - domainName: ${vars.service_domain}
-          protocol: HTTP,HTTPS
-          certId: ${vars.cert_id}
+          protocol: HTTP
+          # protocol: HTTP,HTTPS
+          # certId: ${vars.cert_id}
           routeConfigs:
             - path: /*
               serviceName: juji-contexture
